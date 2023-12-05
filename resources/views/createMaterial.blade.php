@@ -21,8 +21,12 @@
                                             <input type="text" name="nama_material" class="form-control" id="nama_material">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="kualitas_material" class="form-label">Kualitas Material</label>
-                                            <input type="text" name="kualitas_material" class="form-control" id="kualitas_material">
+                                            <label for="panjang" class="form-label">Panjang Material</label>
+                                            <input type="number" name="panjang" class="form-control" id="panjang">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="lebar" class="form-label">Lebar Material</label>
+                                            <input type="number" name="lebar" class="form-control" id="lebar">
                                         </div>
                                         <div class="mb-3">
                                             <label for="gambar_material" class="form-label">Gambar Material</label>

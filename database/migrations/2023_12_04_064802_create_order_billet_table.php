@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('material', function (Blueprint $table) {
+        Schema::create('order_billet', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("order_id")->nullable();
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("material_id")->nullable();
-            $table->string("nama_material");
-            $table->integer("panjang");
-            $table->integer("lebar");
-            $table->string("gambar_material")->nullable();
+            $table->timestamp("tanggal_order");
+            $table->enum("status", ["waiting", "in action", "completed"])->default("waiting");
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('material');
+        Schema::dropIfExists('order_billet');
     }
 };
