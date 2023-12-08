@@ -26,10 +26,13 @@
                                                             <h6 class="fw-semibold mb-0">Nama Material</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">Panjang Material</h6>
+                                                            <h6 class="fw-semibold mb-0">Diameter Billet</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">Lebar Material</h6>
+                                                            <h6 class="fw-semibold mb-0">Panjang Billet</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Jumlah Billet</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Gambar Material</h6>
@@ -56,10 +59,25 @@
                                                                     <h6 class="fw-semibold mb-1">{{ $material->nama_material }}</h6>
                                                                 </td>
                                                                 <td class="border-bottom-0">
-                                                                    <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $material->panjang }} m</p>
+                                                                    <div class="input-group input-group-sm has-validation">
+                                                                        <input type="number" name="diameter_billet" class="form-control rounded-1">
+                                                                        <span class="btn btn-sm btn-primary pt-2 fw-bold">m</span>
+                                                                        {{-- <span class="input-group-text rounded-1" id="inputGroupPrepend">m</span> --}}
+                                                                    </div>
                                                                 </td>
                                                                 <td class="border-bottom-0">
-                                                                    <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $material->lebar }} m</p>
+                                                                    <div class="input-group input-group-sm has-validation">
+                                                                        <input type="number" name="panjang" class="form-control rounded-1">
+                                                                        <span class="btn btn-sm btn-primary pt-2 fw-bold">m</span>
+                                                                        {{-- <span class="input-group-text rounded-1" id="inputGroupPrepend">m</span> --}}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <div class="input-group input-group-sm has-validation">
+                                                                        <input type="number" name="quantity" class="form-control rounded-1">
+                                                                        <span class="btn btn-sm btn-primary pt-2 fw-bold">m</span>
+                                                                        {{-- <span class="input-group-text rounded-1" id="inputGroupPrepend">m</span> --}}
+                                                                    </div>
                                                                 </td>
                                                                 <td class="border-bottom-0">
                                                                     <div class="d-flex align-items-center gap-2">

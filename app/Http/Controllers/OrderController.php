@@ -44,7 +44,7 @@ class OrderController extends Controller
 
     public function statusOrder()
     {
-        $billetOrders = OrderModel::all();
+        $billetOrders = OrderModel::latest()->get();
         return view('statusOrder', compact(["billetOrders"]));
     }
 
@@ -54,15 +54,12 @@ class OrderController extends Controller
 
         $order = OrderModel::find($id);
         $order->status = $ubahStatus;
+        if ($order->status === "pemotongan panjang") {
+            $order->durasi_pemotongan_panjang = now()->addMinutes(1)->toTimeString();
+        } elseif ($order->status === "pemotongan diameter") {
+            $order->durasi_pemotongan_panjang = now()->addMinutes(1)->toTimeString();
+        }
         $order->save();
         return redirect()->back();
-
-        // $ubahStatus = $request->input("status");
-        // DB::table("order_billet")
-        // ->where('order_id', $id)
-        // ->update([
-        //     'status' => $ubahStatus
-        // ]);
-        // return redirect()->back();
     }
 }

@@ -1,3 +1,6 @@
+<?php
+use Carbon\Carbon;
+?>
 @extends('layouts.setup')
 
 @section('content')
@@ -26,10 +29,13 @@
                                                             <h6 class="fw-semibold mb-0">Nama Material</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">Panjang Material</h6>
+                                                            <h6 class="fw-semibold mb-0">Diameter Billet</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
-                                                            <h6 class="fw-semibold mb-0">Lebar Material</h6>
+                                                            <h6 class="fw-semibold mb-0">Panjang Billet</h6>
+                                                        </th>
+                                                        <th class="border-bottom-0">
+                                                            <h6 class="fw-semibold mb-0">Jumlah Billet</h6>
                                                         </th>
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Gambar Material</h6>
@@ -37,7 +43,7 @@
                                                         <th class="border-bottom-0">
                                                             <h6 class="fw-semibold mb-0">Tanggal Order</h6>
                                                         </th>
-                                                        <th class="border-bottom-0">
+                                                        <th class="border-bottom-0" style="width: 80%">
                                                             <h6 class="fw-semibold mb-0">Status Pesanan</h6>
                                                         </th>
                                                     </tr>
@@ -54,10 +60,13 @@
                                                                 <h6 class="fw-semibold mb-1">{{ $billetOrder->material->nama_material }}</h6>
                                                             </td>
                                                             <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->material->panjang }} m</p>
+                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->diameter_billet }} m</p>
                                                             </td>
                                                             <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->material->lebar }} m</p>
+                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->panjang }} m</p>
+                                                            </td>
+                                                            <td class="border-bottom-0">
+                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->quantity }}</p>
                                                             </td>
                                                             <td class="border-bottom-0">
                                                                 <div class="d-flex align-items-center gap-2">
@@ -70,18 +79,51 @@
                                                                 <p class="mb-0 fw-semibold">{{ $billetOrder->created_at->diffForHumans() }}</p>
                                                             </td>
                                                             <form method="post" action="/confirm-sawing-billet/{{ $billetOrder->id }}" >
-                                                                <p>{{ $billetOrder->order_id }}</p>
                                                                 @method('put')
                                                                 @csrf
                                                                 <td class="border-bottom-0">
-                                                                    <select name="status" id="status" class="form-control rounded-3 text-center p-2">
-                                                                        <option @if ($billetOrder->status === "waiting") selected @endif value="waiting">Waiting</option>
-                                                                        <option @if ($billetOrder->status === "in action") selected @endif value="in action">In action</option>
-                                                                        <option @if ($billetOrder->status === "completed") selected @endif  value="completed">Completed</option>
+                                                                    <select style="width: 160px" name="status" id="status" class="form-control rounded-3 text-center p-2">
+                                                                        <option  @if ($billetOrder->status === "menunggu konfirmasi") selected @endif value="menunggu konfirmasi">Menunggu Konfirmasi</option>
+                                                                        <option id="panjang" @if ($billetOrder->status === "pemotongan panjang") selected @endif value="pemotongan panjang">Pemotongan Panjang</option>
+                                                                        <option id="diameter" @if ($billetOrder->status === "pemotongan diameter") selected @endif value="pemotongan diameter">Pemotongan Diameter</option>
+                                                                        <option @if ($billetOrder->status === "selesai") selected @endif  value="selesai">Selesai</option>
                                                                     </select>
                                                                     <button type="submit" class="btn btn-primary rounded-3 mt-3">Konfirmasi!</button>
                                                                 </td>
                                                             </form>
+                                                            <form action="/billet-stacker" method="post">
+                                                                <td class="border-bottom-0">
+                                                                    <button type="submit" class="btn btn-danger rounded-3 mt-3">Billet Stacker!</button>
+                                                                </td>
+                                                            </form>
+
+                                                            @if ($billetOrder->status === "pemotongan panjang")
+                                                                <?php
+                                                                    if ($billetOrder->isTimeExpired()) {
+                                                                        echo '<p class="p-3 bg-success rounded-3 text-white fw-light">';
+                                                                        echo 'Pemotongan panjang <strong>' . $billetOrder->material->nama_material . '</strong> telah selesai';
+                                                                        echo '</p>';
+                                                                    } else {
+                                                                        echo '<p class="p-3 bg-danger rounded-3 text-white fw-light">';
+                                                                        echo 'Sisa waktu pemotongan panjang <strong>' . $billetOrder->material->nama_material . '</strong> adalah ';
+                                                                        echo '<strong id="countdown-timer">' . $billetOrder->calculateRemainingTime() . '</strong>';
+                                                                        echo '</p>';
+                                                                    }
+                                                                ?>
+                                                            @elseif ($billetOrder->status === "pemotongan diameter")
+                                                                <?php
+                                                                    if ($billetOrder->isTimeExpired()) {
+                                                                        echo '<p class="p-3 bg-success rounded-3 text-white fw-light">';
+                                                                        echo 'Pemotongan diameter <strong>' . $billetOrder->material->nama_material . '</strong> telah selesai';
+                                                                        echo '</p>';
+                                                                    } else {
+                                                                        echo '<p class="p-3 bg-danger rounded-3 text-white fw-light">';
+                                                                        echo 'Sisa waktu pemotongan diameter <strong>' . $billetOrder->material->nama_material . '</strong> adalah ';
+                                                                        echo '<strong id="countdown-timer">' . $billetOrder->calculateRemainingTime() . '</strong>';
+                                                                        echo '</p>';
+                                                                    }
+                                                                ?>
+                                                            @endif
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -97,19 +139,4 @@
         </div>
     </div>
 </div>
-
-{{-- <script>
-    let statusSelect = document.getElementById("status");
-    let selectedStatus = statusSelect.value;
-    let statusBg = document.getElementById("statusBg");
-    statusBg.classList.remove("bg-warning", "bg-danger", "bg-primary");
-
-    if (selectedStatus === "waiting") {
-        statusBg.classList.add("bg-warning");
-    } else if (selectedStatus === "in action") {
-        statusBg.classList.add("bg-danger");
-    } else if (selectedStatus === "completed") {
-        statusBg.classList.add("bg-primary");
-    }
-</script> --}}
 @endsection

@@ -16,8 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger("order_id")->nullable();
             $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("material_id")->nullable();
+            $table->integer("diameter_billet")->nullable();
+            $table->integer("panjang")->nullable();
+            $table->integer("quantity");
             $table->timestamp("tanggal_order");
-            $table->enum("status", ["waiting", "in action", "completed"])->default("waiting");
+            $table->enum("status", ["menunggu konfirmasi", "pemotongan panjang", "pemotongan diameter", "selesai"])->default("menunggu konfirmasi");
+            $table->time("durasi_pemotongan_panjang")->nullable();
             $table->timestamps();
         });
     }
