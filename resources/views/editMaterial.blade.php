@@ -19,11 +19,7 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="nama_material" class="form-label">Nama Material</label>
-                                            <input type="text" name="nama_material" value={{ $getMaterial->nama_material }} class="form-control" id="nama_material" >
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="kualitas_material" class="form-label">Kualitas Material</label>
-                                            <input type="text" name="kualitas_material" value={{ $getMaterial->kualitas_material }} class="form-control" id="kualitas_material">
+                                            <input type="text" name="nama_material" value="{{ $getMaterial->nama_material }}" class="form-control" id="nama_material" >
                                         </div>
                                         <div class="mb-3">
                                             <label for="gambar_material" class="form-label">Gambar Material</label>

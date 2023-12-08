@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('material', function (Blueprint $table) {
+        Schema::create('conveying_equipment', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("material_id")->nullable();
-            $table->string("nama_material");
-            $table->string("gambar_material")->nullable();
+            $table->enum("status_pengangkutan", ["menunggu diangkut", "selesai diangkut"])->default("menunggu diangkut");
+            // $table->string("status_pengangkutan");
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('material');
+        Schema::dropIfExists('conveying_equipment');
     }
 };

@@ -16,12 +16,16 @@ class MaterialController extends Controller
     public function store_createMaterial( Request $request )
     {
         $material = MaterialModel::create($request->all());
+        $materialID = $material->id;
+        $material->material_id = $materialID;
+
         $gambar_material = $request->file("gambar_material");
         $fileName = $gambar_material->getClientOriginalName();
         $gambar_material = Image::make($gambar_material)->resize(1280, 720);
         $gambar_material->save("assets/images/".$fileName);
         $material->gambar_material = $fileName;
         $material->save();
+
         return redirect('/');
     }
 
@@ -35,6 +39,8 @@ class MaterialController extends Controller
     {
         $editMaterial = MaterialModel::find($id);
         $editMaterial->update($request->all());
+        $materialID = $editMaterial->id;
+        $editMaterial->material_id = $materialID;
 
         $gambar_material = $request->file("gambar_material");
         if ($gambar_material) {

@@ -2,7 +2,7 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index.html" class="text-nowrap logo-img">
+            <a href="/" class="text-nowrap logo-img">
                 <img src="../assets/images/logos/inalum-logo.png" width="180" alt="" />
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -24,6 +24,14 @@
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/order" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-cart"></i>
+                        </span>
+                        <span class="hide-menu">Order Billet</span>
+                    </a>
+                </li>
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Data Inalum</span>
@@ -34,6 +42,14 @@
                         <i class="ti ti-article"></i>
                       </span>
                       <span class="hide-menu">Tambah Material</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/status-order" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-article"></i>
+                      </span>
+                      <span class="hide-menu">Status Order</span>
                     </a>
                 </li>
                 <li class="nav-small-cap">
@@ -49,7 +65,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="belum-ada" aria-expanded="false">
+                    <a class="sidebar-link" href="/register" aria-expanded="false">
                         <span>
                             <i class="ti ti-user-plus"></i>
                         </span>
