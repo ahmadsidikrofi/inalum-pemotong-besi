@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('conveying_equipment', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("order_id")->nullable();
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedBigInteger("material_id")->nullable();
+            $table->unsignedBigInteger("conveying_id")->nullable();
             $table->enum("status_pengangkutan", ["menunggu diangkut", "selesai diangkut"])->default("menunggu diangkut");
             // $table->string("status_pengangkutan");
             $table->timestamps();

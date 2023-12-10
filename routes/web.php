@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConveyingController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrderController;
 use App\Models\MaterialModel;
@@ -28,6 +29,10 @@ Route::get('/order', [OrderController::class, "orderPage"]);
 Route::post('/order-billet/{id}', [OrderController::class, "orderBillet"]);
 Route::get('/status-order', [OrderController::class, "statusOrder"]);
 Route::put('/confirm-sawing-billet/{id}', [OrderController::class, "konfirmasiStatus"]);
+
+// Conveying Equipment
+Route::get('/billet-stacker', [ConveyingController::class, "billetStacker"]);
+Route::post('/billet-stacker/{id}', [ConveyingController::class, "billetStackerStore"]);
 
 
 Route::get('/create-material', [MaterialController::class, "viewPage_createMaterial"]);

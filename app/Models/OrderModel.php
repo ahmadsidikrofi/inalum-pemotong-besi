@@ -33,9 +33,6 @@ class OrderModel extends Model
         $endDate = Carbon::parse($this->durasi_pemotongan_panjang);
         $now = Carbon::now();
         return $now >= $endDate;
-
-        // $post::first();
-        // $post->category;
     }
 
 }

@@ -83,15 +83,24 @@ use Carbon\Carbon;
                                                                 @csrf
                                                                 <td class="border-bottom-0">
                                                                     <select style="width: 160px" name="status" id="status" class="form-control rounded-3 text-center p-2">
-                                                                        <option  @if ($billetOrder->status === "menunggu konfirmasi") selected @endif value="menunggu konfirmasi">Menunggu Konfirmasi</option>
-                                                                        <option id="panjang" @if ($billetOrder->status === "pemotongan panjang") selected @endif value="pemotongan panjang">Pemotongan Panjang</option>
-                                                                        <option id="diameter" @if ($billetOrder->status === "pemotongan diameter") selected @endif value="pemotongan diameter">Pemotongan Diameter</option>
-                                                                        <option @if ($billetOrder->status === "selesai") selected @endif  value="selesai">Selesai</option>
+                                                                        <option @if ($billetOrder->status === "menunggu konfirmasi") selected @endif value="menunggu konfirmasi">Menunggu Konfirmasi</option>
+                                                                        <option id="panjang" @if ($billetOrder->status === "pemotongan panjang") selected @endif
+                                                                            value="pemotongan panjang"
+                                                                            {{ $billetOrder->isTimeExpired() ? '' : 'disabled' }}>Pemotongan Panjang
+                                                                        </option>
+                                                                        <option id="diameter" @if ($billetOrder->status === "pemotongan diameter") selected @endif
+                                                                            value="pemotongan diameter"
+                                                                            {{ $billetOrder->isTimeExpired() ? '' : 'disabled' }}>Pemotongan Diameter
+                                                                        </option>
+                                                                        <option @if ($billetOrder->status === "selesai") selected @endif value="selesai">Selesai</option>
                                                                     </select>
                                                                     <button type="submit" class="btn btn-primary rounded-3 mt-3">Konfirmasi!</button>
                                                                 </td>
                                                             </form>
-                                                            <form action="/billet-stacker" method="post">
+                                                            <form action="/billet-stacker/{{ $billetOrder->id }}" method="post" enctype="multipart/form-data">
+                                                                @csrf
+                                                                <input type="hidden" name="order_id" value="{{ $billetOrder->id }}">
+                                                                <input type="hidden" name="material_id" value="{{ $billetOrder->material_id }}">
                                                                 <td class="border-bottom-0">
                                                                     <button type="submit" class="btn btn-danger rounded-3 mt-3">Billet Stacker!</button>
                                                                 </td>
@@ -139,4 +148,14 @@ use Carbon\Carbon;
         </div>
     </div>
 </div>
+<script>
+    let panjang = document.getElementById("panjang")
+    let diameter = document.getElementById('diameter')
+    if (panjang.disabled === true && diameter.disabled === true) {
+        panjang.style.backgroundColor = "#65737e"
+        panjang.style.color = "white"
+        diameter.style.backgroundColor = "#65737e"
+        diameter.style.color = "white"
+    }
+</script>
 @endsection
