@@ -50,81 +50,93 @@ use Carbon\Carbon;
                                                 </thead>
                                                 <tbody>
                                                     @php $x = 1 @endphp
-                                                    @foreach ( $billetOrders as $billetOrder )
-                                                        {{-- <input type="hidden" name="material_id" value={{ $material->id }}> --}}
-                                                        <tr>
-                                                            <td class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-0">{{ $x++ }}</h6>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <h6 class="fw-semibold mb-1">{{ $billetOrder->material->nama_material }}</h6>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->diameter_billet }} m</p>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->panjang }} m</p>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->quantity }}</p>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="p-1 bg-primary rounded-4 fw-semibold">
-                                                                        <img src="/assets/images/{{ $billetOrder->material->gambar_material }}" width="130" alt="" class="rounded-3">
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="border-bottom-0">
-                                                                <p class="mb-0 fw-semibold">{{ $billetOrder->created_at->diffForHumans() }}</p>
-                                                            </td>
-                                                            <form method="post" action="/confirm-sawing-billet/{{ $billetOrder->id }}" >
-                                                                @method('put')
-                                                                @csrf
-                                                                <td class="border-bottom-0">
-                                                                    <select style="width: 160px" name="status" id="status" class="form-control rounded-3 text-center p-2">
-                                                                        <option  @if ($billetOrder->status === "menunggu konfirmasi") selected @endif value="menunggu konfirmasi">Menunggu Konfirmasi</option>
-                                                                        <option id="panjang" @if ($billetOrder->status === "pemotongan panjang") selected @endif value="pemotongan panjang">Pemotongan Panjang</option>
-                                                                        <option id="diameter" @if ($billetOrder->status === "pemotongan diameter") selected @endif value="pemotongan diameter">Pemotongan Diameter</option>
-                                                                        <option @if ($billetOrder->status === "selesai") selected @endif  value="selesai">Selesai</option>
-                                                                    </select>
-                                                                    <button type="submit" class="btn btn-primary rounded-3 mt-3">Konfirmasi!</button>
-                                                                </td>
-                                                            </form>
-                                                            <form action="/billet-stacker" method="post">
-                                                                <td class="border-bottom-0">
-                                                                    <button type="submit" class="btn btn-danger rounded-3 mt-3">Billet Stacker!</button>
-                                                                </td>
-                                                            </form>
+                                                    @foreach ( $billetOrderGroups as $billetOrderGroup )
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="fw-semibold">Batch {{ $billetOrderGroup->batch }}</h6>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-normal badge bg-primary rounded-3">Total : {{ $billetOrderGroup->totalQuantity }} m</p>
+                                                        </td>
+                                                    </tr>
+                                                        @foreach ( $billetOrders as $billetOrder )
+                                                            @if ( $billetOrderGroup->batch === $billetOrder->batch )
+                                                                {{-- <input type="hidden" name="material_id" value={{ $material->id }}> --}}
+                                                                <tr>
+                                                                    <td class="border-bottom-0">
+                                                                        <h6 class="fw-semibold mb-0">{{ $x++ }}</h6>
+                                                                    </td>
+                                                                    <td class="border-bottom-0">
+                                                                        <h6 class="fw-semibold mb-1">{{ $billetOrder->material->nama_material }}</h6>
+                                                                    </td>
+                                                                    <td class="border-bottom-0">
+                                                                        <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->diameter_billet }} m</p>
+                                                                    </td>
+                                                                    <td class="border-bottom-0">
+                                                                        <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->panjang }} m</p>
+                                                                    </td>
+                                                                    <td class="border-bottom-0">
+                                                                        <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->quantity }}</p>
+                                                                    </td>
+                                                                    <td class="border-bottom-0">
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                            <span class="p-1 bg-primary rounded-4 fw-semibold">
+                                                                                <img src="/assets/images/{{ $billetOrder->material->gambar_material }}" width="130" alt="" class="rounded-3">
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="border-bottom-0">
+                                                                        <p class="mb-0 fw-semibold">{{ $billetOrder->created_at->diffForHumans() }}</p>
+                                                                    </td>
+                                                                    <form method="post" action="/confirm-sawing-billet/{{ $billetOrder->id }}" >
+                                                                        @method('put')
+                                                                        @csrf
+                                                                        <td class="border-bottom-0">
+                                                                            <select style="width: 160px" name="status" id="status" class="form-control rounded-3 text-center p-2">
+                                                                                <option  @if ($billetOrder->status === "menunggu konfirmasi") selected @endif value="menunggu konfirmasi">Menunggu Konfirmasi</option>
+                                                                                <option id="panjang" @if ($billetOrder->status === "pemotongan panjang") selected @endif value="pemotongan panjang">Pemotongan Panjang</option>
+                                                                                <option id="diameter" @if ($billetOrder->status === "pemotongan diameter") selected @endif value="pemotongan diameter">Pemotongan Diameter</option>
+                                                                                <option @if ($billetOrder->status === "selesai") selected @endif  value="selesai">Selesai</option>
+                                                                            </select>
+                                                                            <button type="submit" class="btn btn-primary rounded-3 mt-3">Konfirmasi!</button>
+                                                                        </td>
+                                                                    </form>
+                                                                    <form action="/billet-stacker" method="post">
+                                                                        <td class="border-bottom-0">
+                                                                            <button type="submit" class="btn btn-danger rounded-3 mt-3">Billet Stacker!</button>
+                                                                        </td>
+                                                                    </form>
 
-                                                            @if ($billetOrder->status === "pemotongan panjang")
-                                                                <?php
-                                                                    if ($billetOrder->isTimeExpired()) {
-                                                                        echo '<p class="p-3 bg-success rounded-3 text-white fw-light">';
-                                                                        echo 'Pemotongan panjang <strong>' . $billetOrder->material->nama_material . '</strong> telah selesai';
-                                                                        echo '</p>';
-                                                                    } else {
-                                                                        echo '<p class="p-3 bg-danger rounded-3 text-white fw-light">';
-                                                                        echo 'Sisa waktu pemotongan panjang <strong>' . $billetOrder->material->nama_material . '</strong> adalah ';
-                                                                        echo '<strong id="countdown-timer">' . $billetOrder->calculateRemainingTime() . '</strong>';
-                                                                        echo '</p>';
-                                                                    }
-                                                                ?>
-                                                            @elseif ($billetOrder->status === "pemotongan diameter")
-                                                                <?php
-                                                                    if ($billetOrder->isTimeExpired()) {
-                                                                        echo '<p class="p-3 bg-success rounded-3 text-white fw-light">';
-                                                                        echo 'Pemotongan diameter <strong>' . $billetOrder->material->nama_material . '</strong> telah selesai';
-                                                                        echo '</p>';
-                                                                    } else {
-                                                                        echo '<p class="p-3 bg-danger rounded-3 text-white fw-light">';
-                                                                        echo 'Sisa waktu pemotongan diameter <strong>' . $billetOrder->material->nama_material . '</strong> adalah ';
-                                                                        echo '<strong id="countdown-timer">' . $billetOrder->calculateRemainingTime() . '</strong>';
-                                                                        echo '</p>';
-                                                                    }
-                                                                ?>
+                                                                    @if ($billetOrder->status === "pemotongan panjang")
+                                                                        <?php
+                                                                            if ($billetOrder->isTimeExpired()) {
+                                                                                echo '<p class="p-3 bg-success rounded-3 text-white fw-light">';
+                                                                                echo 'Pemotongan panjang <strong>' . $billetOrder->material->nama_material . '</strong> telah selesai';
+                                                                                echo '</p>';
+                                                                            } else {
+                                                                                echo '<p class="p-3 bg-danger rounded-3 text-white fw-light">';
+                                                                                echo 'Sisa waktu pemotongan panjang <strong>' . $billetOrder->material->nama_material . '</strong> adalah ';
+                                                                                echo '<strong id="countdown-timer">' . $billetOrder->calculateRemainingTime() . '</strong>';
+                                                                                echo '</p>';
+                                                                            }
+                                                                        ?>
+                                                                    @elseif ($billetOrder->status === "pemotongan diameter")
+                                                                        <?php
+                                                                            if ($billetOrder->isTimeExpired()) {
+                                                                                echo '<p class="p-3 bg-success rounded-3 text-white fw-light">';
+                                                                                echo 'Pemotongan diameter <strong>' . $billetOrder->material->nama_material . '</strong> telah selesai';
+                                                                                echo '</p>';
+                                                                            } else {
+                                                                                echo '<p class="p-3 bg-danger rounded-3 text-white fw-light">';
+                                                                                echo 'Sisa waktu pemotongan diameter <strong>' . $billetOrder->material->nama_material . '</strong> adalah ';
+                                                                                echo '<strong id="countdown-timer">' . $billetOrder->calculateRemainingTime() . '</strong>';
+                                                                                echo '</p>';
+                                                                            }
+                                                                        ?>
+                                                                    @endif
+                                                                </tr>
                                                             @endif
-                                                        </tr>
+                                                        @endforeach
                                                     @endforeach
                                                 </tbody>
                                             </table>

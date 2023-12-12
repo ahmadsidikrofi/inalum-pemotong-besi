@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('conveying_equipment', function (Blueprint $table) {
             $table->id();
-            $table->enum("status_pengangkutan", ["menunggu diangkut", "selesai diangkut"])->default("menunggu diangkut");
             // $table->string("status_pengangkutan");
+            $table->string('name');
+            $table->string('type');
+            $table->string('location');
+            $table->integer('capacity');
+            $table->string('condition');
+            $table->enum("status_pengangkutan", ["menunggu diangkut", "selesai diangkut"])->default("menunggu diangkut");
             $table->timestamps();
         });
     }

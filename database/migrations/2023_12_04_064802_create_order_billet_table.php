@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("material_id")->nullable();
             $table->integer("diameter_billet")->nullable();
+            $table->string("batch")->nullable();
             $table->integer("panjang")->nullable();
             $table->integer("quantity");
             $table->timestamp("tanggal_order");

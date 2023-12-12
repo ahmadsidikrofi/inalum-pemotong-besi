@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ConveyingEquipmentController;
 use App\Models\MaterialModel;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,9 @@ Route::post('/create-material-store', [MaterialController::class, "store_createM
 Route::get('/edit-material/{id}', [MaterialController::class, "viewPage_editMaterial"]);
 Route::put('/edit-material-store/{id}', [MaterialController::class, "store_editMaterial"]);
 Route::get('/delete-material/{id}', [MaterialController::class, "delete_material"]);
+
+// Conveying Equipment
+Route::get('/conveying-equipment', [ConveyingEquipmentController::class, "viewPage_conveyingEquipment"]);
 
 // Auth
 // Register
