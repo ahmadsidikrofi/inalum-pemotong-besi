@@ -61,51 +61,60 @@ use Carbon\Carbon;
                                                     </tr>
                                                         @foreach ( $billetOrders as $billetOrder )
                                                             @if ( $billetOrderGroup->batch === $billetOrder->batch )
-                                                                {{-- <input type="hidden" name="material_id" value={{ $material->id }}> --}}
-                                                                <tr>
+                                                            {{-- <input type="hidden" name="material_id" value={{ $material->id }}> --}}
+                                                            <tr>
+                                                                <td class="border-bottom-0">
+                                                                    <h6 class="fw-semibold mb-0">{{ $x++ }}</h6>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <h6 class="fw-semibold mb-1">{{ $billetOrder->material->nama_material }}</h6>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->diameter_billet }} m</p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->panjang }} m</p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->quantity }}</p>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <div class="d-flex align-items-center gap-2">
+                                                                        <span class="p-1 bg-primary rounded-4 fw-semibold">
+                                                                            <img src="/assets/images/{{ $billetOrder->material->gambar_material }}" width="130" alt="" class="rounded-3">
+                                                                        </span>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="border-bottom-0">
+                                                                    <p class="mb-0 fw-semibold">{{ $billetOrder->created_at->diffForHumans() }}</p>
+                                                                </td>
+                                                                <form method="post" action="/confirm-sawing-billet/{{ $billetOrder->id }}" >
+                                                                    @method('put')
+                                                                    @csrf
                                                                     <td class="border-bottom-0">
-                                                                        <h6 class="fw-semibold mb-0">{{ $x++ }}</h6>
+                                                                        <select style="width: 160px" name="status" id="status" class="form-control rounded-3 text-center p-2">
+                                                                            <option @if ($billetOrder->status === "menunggu konfirmasi") selected @endif value="menunggu konfirmasi">Menunggu Konfirmasi</option>
+                                                                            <option id="panjang" @if ($billetOrder->status === "pemotongan panjang") selected @endif
+                                                                                value="pemotongan panjang"
+                                                                                {{ $billetOrder->isTimeExpired() ? '' : 'disabled' }}>Pemotongan Panjang
+                                                                            </option>
+                                                                            <option id="diameter" @if ($billetOrder->status === "pemotongan diameter") selected @endif
+                                                                                value="pemotongan diameter"
+                                                                                {{ $billetOrder->isTimeExpired() ? '' : 'disabled' }}>Pemotongan Diameter
+                                                                            </option>
+                                                                            <option @if ($billetOrder->status === "selesai") selected @endif value="selesai">Selesai</option>
+                                                                        </select>
+                                                                        <button type="submit" class="btn btn-primary rounded-3 mt-3">Konfirmasi!</button>
                                                                     </td>
+                                                                </form>
+                                                                <form action="/billet-stacker/{{ $billetOrder->id }}" method="post" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    <input type="hidden" name="order_id" value="{{ $billetOrder->id }}">
+                                                                    <input type="hidden" name="material_id" value="{{ $billetOrder->material_id }}">
                                                                     <td class="border-bottom-0">
-                                                                        <h6 class="fw-semibold mb-1">{{ $billetOrder->material->nama_material }}</h6>
+                                                                        <button type="submit" class="btn btn-danger rounded-3 mt-3">Billet Stacker!</button>
                                                                     </td>
-                                                                    <td class="border-bottom-0">
-                                                                        <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->diameter_billet }} m</p>
-                                                                    </td>
-                                                                    <td class="border-bottom-0">
-                                                                        <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->panjang }} m</p>
-                                                                    </td>
-                                                                    <td class="border-bottom-0">
-                                                                        <p class="mb-0 fw-normal badge bg-primary rounded-3 fw-semibold">{{ $billetOrder->quantity }}</p>
-                                                                    </td>
-                                                                    <td class="border-bottom-0">
-                                                                        <div class="d-flex align-items-center gap-2">
-                                                                            <span class="p-1 bg-primary rounded-4 fw-semibold">
-                                                                                <img src="/assets/images/{{ $billetOrder->material->gambar_material }}" width="130" alt="" class="rounded-3">
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="border-bottom-0">
-                                                                        <p class="mb-0 fw-semibold">{{ $billetOrder->created_at->diffForHumans() }}</p>
-                                                                    </td>
-                                                                    <form method="post" action="/confirm-sawing-billet/{{ $billetOrder->id }}" >
-                                                                        @method('put')
-                                                                        @csrf
-                                                                        <td class="border-bottom-0">
-                                                                            <select style="width: 160px" name="status" id="status" class="form-control rounded-3 text-center p-2">
-                                                                                <option  @if ($billetOrder->status === "menunggu konfirmasi") selected @endif value="menunggu konfirmasi">Menunggu Konfirmasi</option>
-                                                                                <option id="panjang" @if ($billetOrder->status === "pemotongan panjang") selected @endif value="pemotongan panjang">Pemotongan Panjang</option>
-                                                                                <option id="diameter" @if ($billetOrder->status === "pemotongan diameter") selected @endif value="pemotongan diameter">Pemotongan Diameter</option>
-                                                                                <option @if ($billetOrder->status === "selesai") selected @endif  value="selesai">Selesai</option>
-                                                                            </select>
-                                                                            <button type="submit" class="btn btn-primary rounded-3 mt-3">Konfirmasi!</button>
-                                                                        </td>
-                                                                    </form>
-                                                                    <form action="/billet-stacker" method="post">
-                                                                        <td class="border-bottom-0">
-                                                                            <button type="submit" class="btn btn-danger rounded-3 mt-3">Billet Stacker!</button>
-                                                                        </td>
-                                                                    </form>
+                                                                </form>
 
                                                                     @if ($billetOrder->status === "pemotongan panjang")
                                                                         <?php
@@ -151,4 +160,14 @@ use Carbon\Carbon;
         </div>
     </div>
 </div>
+<script>
+    let panjang = document.getElementById("panjang")
+    let diameter = document.getElementById('diameter')
+    if (panjang.disabled === true && diameter.disabled === true) {
+        panjang.style.backgroundColor = "#65737e"
+        panjang.style.color = "white"
+        diameter.style.backgroundColor = "#65737e"
+        diameter.style.color = "white"
+    }
+</script>
 @endsection
