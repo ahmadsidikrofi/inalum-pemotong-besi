@@ -36,8 +36,9 @@ Route::get('/status-order', [OrderController::class, "statusOrder"]);
 Route::put('/confirm-sawing-billet/{id}', [OrderController::class, "konfirmasiStatus"]);
 
 // Conveying Equipment
-Route::get('/billet-stacker', [ConveyingController::class, "billetStacker"]);
-Route::post('/billet-stacker/{id}', [ConveyingController::class, "billetStackerStore"]);
+// Route::get('/billet-stacker', [ConveyingController::class, "billetStacker"]);
+Route::post('/conveying-equipment/{id}', [ConveyingController::class, "billetStackerStore"]);
+Route::get('/detail/conveying/{id}', [ConveyingController::class, "detailBillet_page"]);
 
 
 Route::get('/create-material', [MaterialController::class, "viewPage_createMaterial"]);
@@ -47,7 +48,7 @@ Route::put('/edit-material-store/{id}', [MaterialController::class, "store_editM
 Route::get('/delete-material/{id}', [MaterialController::class, "delete_material"]);
 
 // Conveying Equipment
-Route::get('/conveying-equipment', [ConveyingEquipmentController::class, "viewPage_conveyingEquipment"]);
+Route::get('/conveying-equipment', [ConveyingController::class, "viewPage_conveyingEquipment"]);
 
 // Auth
 // Register

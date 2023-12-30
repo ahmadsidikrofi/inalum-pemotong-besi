@@ -13,7 +13,7 @@ class ConveyingModel extends Model
 
     public function order_billet()
     {
-        return $this->belongsTo(OrderModel::class);
+        return $this->belongsTo(OrderModel::class, 'order_id');
     }
     public function material()
     {

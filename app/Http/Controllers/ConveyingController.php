@@ -38,4 +38,16 @@ class ConveyingController extends Controller
             dd($throw);
         }
     }
+
+    public function viewPage_conveyingEquipment()
+    {
+        $billets = ConveyingModel::latest()->get();
+        return view('conveyingEquipment.conveyingEquipment', compact(['billets']));
+    }
+
+    public function detailBillet_page($id)
+    {
+        $detailConveyingBillet = ConveyingModel::find($id);
+        return view('conveyingEquipment.detailBillet', compact(['detailConveyingBillet']));
+    }
 }

@@ -107,12 +107,12 @@ use Carbon\Carbon;
                                                                         <button type="submit" class="btn btn-primary rounded-3 mt-3">Konfirmasi!</button>
                                                                     </td>
                                                                 </form>
-                                                                <form action="/billet-stacker/{{ $billetOrder->id }}" method="post" enctype="multipart/form-data">
+                                                                <form action="/conveying-equipment/{{ $billetOrder->id }}" method="post" enctype="multipart/form-data">
                                                                     @csrf
                                                                     <input type="hidden" name="order_id" value="{{ $billetOrder->id }}">
                                                                     <input type="hidden" name="material_id" value="{{ $billetOrder->material_id }}">
                                                                     <td class="border-bottom-0">
-                                                                        <button type="submit" class="btn btn-danger rounded-3 mt-3">Billet Stacker!</button>
+                                                                        <button type="submit" class="btn btn-danger rounded-3 mt-3" {{ $billetOrder->status !== "selesai" ? "disabled" : "" }}>Billet Stacker!</button>
                                                                     </td>
                                                                 </form>
 

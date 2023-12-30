@@ -17,11 +17,11 @@ return new class extends Migration
             $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("material_id")->nullable();
             $table->unsignedBigInteger("conveying_id")->nullable();
-            $table->string('name');
-            $table->string('type');
-            $table->string('location');
-            $table->integer('capacity');
-            $table->string('condition');
+            $table->string('name')->nullable();
+            $table->string('type')->nullable();
+            $table->string('location')->nullable();
+            $table->integer('capacity')->nullable();
+            $table->string('condition')->nullable();
             $table->enum("status_pengangkutan", ["menunggu diangkut", "selesai diangkut"])->default("menunggu diangkut");
             $table->timestamps();
         });

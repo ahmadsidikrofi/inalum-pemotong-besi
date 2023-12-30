@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class ConveyingEquipmentController extends Controller
 {
     //
-    public function viewPage_conveyingEquipment()
-    {
-        $billetStacker = OrderModel::latest()->where('status', '=', 'selesai')->get();
-        return view('conveyingEquipment', compact(["billetStacker"]));
-    }
+    // public function viewPage_conveyingEquipment()
+    // {
+    //     $billetStacker = OrderModel::latest()->where('status', '=', 'selesai')->get();
+    //     return view('conveyingEquipment', compact(["billetStacker"]));
+    // }
 }

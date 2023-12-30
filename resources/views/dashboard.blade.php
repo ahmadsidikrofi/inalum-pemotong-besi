@@ -130,7 +130,7 @@
                                             <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">Billet teroder</div>
                                         </li>
                                         <li class="timeline-item d-flex position-relative overflow-hidden">
-                                            @if ($recentOrder->status === "pemotongan panjang" || $recentOrder->status === "pemotongan diameter")
+                                            @if ($recentOrder->status === "pemotongan panjang" || $recentOrder->status === "pemotongan diameter" || $recentOrder->status === "selesai")
                                                 <div class="timeline-time text-dark flex-shrink-0 text-end"><span class="badge bg-primary rounded-3 fw-semibold">Sudah</span></div>
                                             @else
                                             <div class="timeline-time text-dark flex-shrink-0 text-end"><span class="badge bg-warning rounded-3 fw-semibold">Belum</span></div>
@@ -141,13 +141,13 @@
                                                 <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                             </div>
                                             <div class="timeline-desc fs-3 text-dark mt-n1
-                                                {{ $recentOrder->status === "pemotongan panjang" || $recentOrder->status === "pemotongan diameter"
+                                                {{ $recentOrder->status === "pemotongan panjang" || $recentOrder->status === "pemotongan diameter" || $recentOrder->status === "selesai"
                                                     ?  'fw-semibold' : 'fw-normal'
                                                 }} ">Pemotongan panjang (X)
                                             </div>
                                         </li>
                                         <li class="timeline-item d-flex position-relative overflow-hidden">
-                                            @if ($recentOrder->status === "pemotongan diameter")
+                                            @if ($recentOrder->status === "pemotongan diameter" || $recentOrder->status === "selesai")
                                                 <div class="timeline-time text-dark flex-shrink-0 text-end"><span class="badge bg-primary rounded-3 fw-semibold">Sudah</span></div>
                                             @else
                                                 <div class="timeline-time text-dark flex-shrink-0 text-end"><span class="badge bg-warning rounded-3 fw-semibold">Belum</span></div>
@@ -159,16 +159,16 @@
                                             </div>
 
                                             <div class="timeline-desc fs-3 text-dark mt-n1
-                                                {{ $recentOrder->status === "pemotongan diameter"
+                                                {{ $recentOrder->status === "pemotongan diameter" || $recentOrder->status === "selesai"
                                                     ?  'fw-semibold' : 'fw-normal'
                                                 }} ">Pemotongan diameter (y)
                                             </div>
                                         </li>
                                         <li class="timeline-item d-flex position-relative overflow-hidden">
-                                            @if ($recentOrder->status === "pemotongan panjang" || $recentOrder->status === "pemotongan diameter")
+                                            @if ($recentOrder->status === "selesai")
                                                 <div class="timeline-time text-dark flex-shrink-0 text-end"><span class="badge bg-primary rounded-3 fw-semibold">Sudah</span></div>
                                             @else
-                                            <div class="timeline-time text-dark flex-shrink-0 text-end"><span class="badge bg-warning rounded-3 fw-semibold">Belum</span></div>
+                                                <div class="timeline-time text-dark flex-shrink-0 text-end"><span class="badge bg-warning rounded-3 fw-semibold">Belum</span></div>
                                             @endif
                                             <div class="timeline-badge-wrap d-flex flex-column align-items-center">
                                                 <span
@@ -176,8 +176,7 @@
                                                 <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                             </div>
                                             <div class="timeline-desc fs-3 text-dark mt-n1 mb-3
-                                                {{ $recentOrder->status === "pemotongan panjang" || $recentOrder->status === "pemotongan diameter"
-                                                    ?  'fw-semibold' : 'fw-normal'
+                                                {{ $recentOrder->status === "selesai" ?  'fw-semibold' : 'fw-normal'
                                                 }} ">Pemotongan {{ $recentOrder->material->nama_material }} selesai
                                             </div>
                                         </li>
@@ -189,8 +188,7 @@
                                                 <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                             </div>
                                             <div class="timeline-desc fs-3 text-dark mt-n1
-                                                {{ $recentOrder->status === "pemotongan panjang" || $recentOrder->status === "pemotongan diameter"
-                                                    ?  'fw-semibold' : 'fw-normal'
+                                                {{ $recentOrder->status === "selesai" ?  'fw-semibold' : 'fw-normal'
                                                 }} ">Billet siap diangkut
                                             </div>
                                         </li>
