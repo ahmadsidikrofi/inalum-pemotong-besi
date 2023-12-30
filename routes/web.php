@@ -5,7 +5,9 @@ use App\Http\Controllers\ConveyingController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ConveyingEquipmentController;
+use App\Models\AuthModel;
 use App\Models\MaterialModel;
+use App\Models\OrderModel;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +24,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $materialItems = MaterialModel::all()->take(4);
     $countMaterial = MaterialModel::count();
-    return view('dashboard', compact(["materialItems", "countMaterial"]));
+    $recentOrderBillet = OrderModel::latest()->take(3)->get();
+    $allUsers = AuthModel::latest()->get();
+    return view('dashboard', compact(["materialItems", "countMaterial", 'recentOrderBillet', 'allUsers']));
 });
 
 // Order Billet
@@ -48,3 +52,12 @@ Route::get('/conveying-equipment', [ConveyingEquipmentController::class, "viewPa
 // Auth
 // Register
 Route::get('/register', [AuthController::class, "regisPage"]);
+Route::post('/register/store', [AuthController::class, "register_store"]);
+// Login
+Route::get('/login', [AuthController::class, "loginPage"]);
+Route::post('/login/store', [AuthController::class, "login_store"]);
+Route::get('/logout', [AuthController::class, "logout"]);
+// Lupa password
+Route::get('/lupa-password', [AuthController::class, "lupaPassword_page"]);
+Route::put('/lupa-password/store', [AuthController::class, "lupaPassword_store"]);
+

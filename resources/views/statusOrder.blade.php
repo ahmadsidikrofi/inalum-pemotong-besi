@@ -56,7 +56,7 @@ use Carbon\Carbon;
                                                             <h6 class="fw-semibold">Batch {{ $billetOrderGroup->batch }}</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 fw-normal badge bg-primary rounded-3">Total : {{ $billetOrderGroup->totalQuantity }} m</p>
+                                                            <p class="mb-0 fw-normal badge bg-primary rounded-3">Total : {{ $billetOrderGroup->totalQuantity }}</p>
                                                         </td>
                                                     </tr>
                                                         @foreach ( $billetOrders as $billetOrder )

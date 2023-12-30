@@ -22,7 +22,7 @@ class OrderController extends Controller
 
         $diameter = $request["diameter_billet"];
         $jumlahBillet = $request["quantity"];
-        
+
         // Generate batch number for the current order
         $batchNumber = $this->generateBatchNumber("D".$diameter."-", $jumlahBillet);
         // Update batch_number in the order
@@ -54,7 +54,7 @@ class OrderController extends Controller
     {
         // Check if the last batch is full based on the diameter
         $maxBilletForDiameter = $this->getMaxBilletForDiameter($diameterPrefix);
-    
+
         // Get the total quantity for the current batch
         $batches = OrderModel::where('batch', 'like', $diameterPrefix . '%')
             ->selectRaw('batch, sum(quantity) as totalQuantity')
@@ -68,7 +68,7 @@ class OrderController extends Controller
                 return $batch->batch;
             }
         }
-    
+
         // If no batch is available or all batches are full, create a new batch
         $newBatchNumber = $this->getNewBatchNumber($diameterPrefix);
         return $newBatchNumber;
@@ -134,7 +134,7 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
-    
 
-    
+
+
 }
