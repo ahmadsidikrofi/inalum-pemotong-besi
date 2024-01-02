@@ -134,7 +134,30 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
+    public function getData()
+    {
+        $orderData = OrderModel::select(DB::raw('DATE(tanggal_order) as order_date'), 'diameter_billet', DB::raw('SUM(quantity) as total_quantity'))
+        ->groupBy('order_date', 'diameter_billet')
+        ->orderBy('order_date')
+        ->where('status', 'selesai')
+        ->get();
 
+        $groupedData = $orderData->groupBy('diameter_billet')->map(function ($item) {
+            return [
+                'name' => "Diameter ".$item[0]->diameter_billet." : ",
+                'data' => $item->pluck('total_quantity')->toArray(),
+            ];
+        })->values();
+
+        $dates = $orderData->pluck('order_date')->unique()->values();
+
+        $chartData = [
+            'categories' => $dates,
+            'series' => $groupedData->toArray(),
+        ];
+
+        return response()->json($chartData);
+    }
 
 
 }

@@ -62,3 +62,9 @@ Route::get('/logout', [AuthController::class, "logout"]);
 Route::get('/lupa-password', [AuthController::class, "lupaPassword_page"]);
 Route::put('/lupa-password/store', [AuthController::class, "lupaPassword_store"]);
 
+Route::get('/info', function () {
+    phpinfo();
+});
+Route::get('/get-data', [OrderController::class, 'getData']);
+
+

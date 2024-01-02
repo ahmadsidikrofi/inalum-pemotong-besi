@@ -27,7 +27,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/order" aria-expanded="false">
                         <span>
-                            <i class="ti ti-cart"></i>
+                            <i class="ti ti-shopping-cart"></i>
                         </span>
                         <span class="hide-menu">Order Billet</span>
                     </a>
@@ -39,7 +39,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/create-material" aria-expanded="false">
                       <span>
-                        <i class="ti ti-article"></i>
+                        <i class="ti ti-circle-plus"></i>
                       </span>
                       <span class="hide-menu">Tambah Material</span>
                     </a>
@@ -47,7 +47,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/status-order" aria-expanded="false">
                       <span>
-                        <i class="ti ti-article"></i>
+                        <i class="ti ti-report-analytics"></i>
                       </span>
                       <span class="hide-menu">Status Order</span>
                     </a>
@@ -55,7 +55,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/conveying-equipment" aria-expanded="false">
                       <span>
-                        <i class="ti ti-article"></i>
+                        <i class="ti ti-car-crane"></i>
                       </span>
                       <span class="hide-menu">Conveying Equipment</span>
                     </a>
