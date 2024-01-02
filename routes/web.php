@@ -27,35 +27,37 @@ Route::get('/', function () {
     $recentOrderBillet = OrderModel::latest()->take(3)->get();
     $allUsers = AuthModel::latest()->get();
     return view('dashboard', compact(["materialItems", "countMaterial", 'recentOrderBillet', 'allUsers']));
+})->middleware('auth');
+
+Route::group(['middleware' => ['auth']], function () {
+    // Order Billet
+    Route::get('/order', [OrderController::class, "orderPage"]);
+    Route::post('/order-billet/{id}', [OrderController::class, "orderBillet"]);
+    Route::get('/status-order', [OrderController::class, "statusOrder"]);
+    Route::put('/confirm-sawing-billet/{id}', [OrderController::class, "konfirmasiStatus"]);
+
+    // Conveying Equipment
+    // Route::get('/billet-stacker', [ConveyingController::class, "billetStacker"]);
+    Route::post('/conveying-equipment/{id}', [ConveyingController::class, "billetStackerStore"]);
+    Route::get('/detail/conveying/{id}', [ConveyingController::class, "detailBillet_page"]);
+
+
+    Route::get('/create-material', [MaterialController::class, "viewPage_createMaterial"]);
+    Route::post('/create-material-store', [MaterialController::class, "store_createMaterial"]);
+    Route::get('/edit-material/{id}', [MaterialController::class, "viewPage_editMaterial"]);
+    Route::put('/edit-material-store/{id}', [MaterialController::class, "store_editMaterial"]);
+    Route::get('/delete-material/{id}', [MaterialController::class, "delete_material"]);
+
+    // Conveying Equipment
+    Route::get('/conveying-equipment', [ConveyingController::class, "viewPage_conveyingEquipment"]);
 });
-
-// Order Billet
-Route::get('/order', [OrderController::class, "orderPage"]);
-Route::post('/order-billet/{id}', [OrderController::class, "orderBillet"]);
-Route::get('/status-order', [OrderController::class, "statusOrder"]);
-Route::put('/confirm-sawing-billet/{id}', [OrderController::class, "konfirmasiStatus"]);
-
-// Conveying Equipment
-// Route::get('/billet-stacker', [ConveyingController::class, "billetStacker"]);
-Route::post('/conveying-equipment/{id}', [ConveyingController::class, "billetStackerStore"]);
-Route::get('/detail/conveying/{id}', [ConveyingController::class, "detailBillet_page"]);
-
-
-Route::get('/create-material', [MaterialController::class, "viewPage_createMaterial"]);
-Route::post('/create-material-store', [MaterialController::class, "store_createMaterial"]);
-Route::get('/edit-material/{id}', [MaterialController::class, "viewPage_editMaterial"]);
-Route::put('/edit-material-store/{id}', [MaterialController::class, "store_editMaterial"]);
-Route::get('/delete-material/{id}', [MaterialController::class, "delete_material"]);
-
-// Conveying Equipment
-Route::get('/conveying-equipment', [ConveyingController::class, "viewPage_conveyingEquipment"]);
 
 // Auth
 // Register
 Route::get('/register', [AuthController::class, "regisPage"]);
 Route::post('/register/store', [AuthController::class, "register_store"]);
 // Login
-Route::get('/login', [AuthController::class, "loginPage"]);
+Route::get('/login', [AuthController::class, "loginPage"])->name('login');
 Route::post('/login/store', [AuthController::class, "login_store"]);
 Route::get('/logout', [AuthController::class, "logout"]);
 // Lupa password
